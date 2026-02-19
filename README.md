@@ -150,10 +150,9 @@ It can be downloaded programmatically using KaggleHub or directly from the offic
 ## Author
 
 **Abdul Rafay Mohd**  
-Master’s in Artificial Intelligence  
+Artificial Intelligence | Medical AI | Computer Vision 
 
 ---
-
 
 ## License
 
