@@ -10,35 +10,26 @@ The dataset is **not redistributed**; instead, you can fetch it automatically vi
 
 ## 📂 Repository Structure
 ```
-YOLOv8l/
-├─ YOLOv8l Baseline.ipynb        # main Colab notebook
-├─ runs/
-│   └─ yolov8_training/
-│       ├─ train/                # training outputs
-│       │   ├─ results.png
-│       │   ├─ confusion_matrix.png
-│       │   ├─ confusion_matrix_normalized.png
-│       │   ├─ results.csv
-│       │   ├─ val_per_class_ap.csv
-│       │   ├─ BoxF1_curve.png
-│       │   ├─ BoxP_curve.png
-│       │   ├─ BoxR_curve.png
-│       │   ├─ BoxPR_curve.png
-│       │   ├─ args.yaml
-│       │   └─ weights/          # best.pt, last.pt, ONNX, TorchScript, etc. (via Git LFS)
-│       └─ test_infer/           # inference results
-├─ requirements.txt
-├─ LICENSE
-├─ CITATION.cff
-├─ CODE_OF_CONDUCT.md
-├─ CONTRIBUTING.md
-├─ SECURITY.md
-├─ CHANGELOG.md
-├─ .gitignore
-├─ .gitattributes
-└─ .github/workflows/smoke.yml
-```
----
+small-object-detection-visdrone/
+├── README.md
+├── notebooks/
+│   ├── 01_baseline_yolov8l_visdrone.ipynb
+│   └── 02_ablation_sod_yolov8_visdrone.ipynb
+├── configs/
+│   └── visdrone.yaml
+├── results/
+│   ├── yolov8_only/
+│   │   └── stage_comparison_map.png
+│   ├── sahi_augmented/
+│   │   └── sahi_stage_comparison.png
+│   └── calibration_curves/
+│       ├── precision_vs_confidence.png
+│       ├── recall_vs_confidence.png
+│       ├── f1_vs_confidence.png
+│       └── precision_vs_recall.png
+├── requirements.txt
+├── LICENSE
+└── .gitignore
 
 ## 📊 Dataset
 
@@ -97,27 +88,29 @@ Key parameters:
 
 ## 📈 Results
 
-Located in `runs/yolov8_training/train/`:
+All key figures used for reporting are stored in `results/`:
 
-- `results.png`: training curves  
-- `confusion_matrix.png`, `confusion_matrix_normalized.png`  
-- `BoxP_curve.png`, `BoxR_curve.png`, `BoxF1_curve.png`, `BoxPR_curve.png`  
-- `results.csv`: per-epoch metrics  
-- `val_per_class_ap.csv`: per-class AP values  
-- `args.yaml`: training args  
+- `results/yolov8_only/stage_comparison_map.png`: mAP comparison across stages (YOLO-only)
+- `results/sahi_augmented/sahi_stage_comparison.png`: SAHI mAP@0.5 comparison across stages
+- `results/calibration_curves/`:
+  - `precision_vs_confidence.png`
+  - `recall_vs_confidence.png`
+  - `f1_vs_confidence.png`
+  - `precision_vs_recall.png`
 
-Weights and exports (`best.pt`, `onnx`, `engine`, `torchscript`, etc.) are tracked via **Git LFS**.
+Raw training artifacts (e.g., `results.csv`, `args.yaml`, `best.pt`) are intentionally **not tracked** in GitHub to keep the repository lightweight and reproducible. You can regenerate them by running the notebooks in `notebooks/`.
 
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
 ## 🚀 Usage
 
-**Clone and install**
+### Clone and install
 ```bash
-git clone https://github.com/<your-username>/YOLOv8l.git
-cd YOLOv8l
-python -m venv .venv && source .venv/bin/activate
+git clone https://github.com/Mohd-Abdul-Rafay/small-object-detection-visdrone.git
+cd small-object-detection-visdrone
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
