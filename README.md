@@ -154,29 +154,22 @@ Master’s in Artificial Intelligence
 
 ---
 
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
 ## License
 
 This project is licensed under the terms of the [MIT License](LICENSE).
 
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
+---
 
 ## Citation
 
-If you use this repository or report results from it, please cite:
-@software{YOLOv8l_Baseline_2025,
-  author       = {Abdul Rafay Mohd},
-  title        = {YOLOv8l Baseline — VisDrone},
-  year         = {2025},
-  publisher    = {GitHub},
-  url          = {https://github.com/Mohd-Abdul-Rafay/YOLOv8l}
+If you use this work, please cite:
+
+@software{rafay2025smallobject,
+  author = {Abdul Rafay Mohd},
+  title = {Small Object Detection in Dense UAV Imagery},
+  year = {2025},
+  url = {https://github.com/Mohd-Abdul-Rafay/small-object-detection-visdrone}
 }
 
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## Contributing
-
-Contributions are welcome. See CONTRIBUTING.md￼.
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
+---
