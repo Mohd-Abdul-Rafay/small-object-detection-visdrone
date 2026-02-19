@@ -180,11 +180,3 @@ If you use this repository or report results from it, please cite:
 Contributions are welcome. See CONTRIBUTING.md￼.
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## Security
-
-See SECURITY.md￼ for vulnerability reporting.
----
-```bash
-![build](https://github.com/<your-username>/YOLOv8l/actions/workflows/smoke.yml/badge.svg)
-```
