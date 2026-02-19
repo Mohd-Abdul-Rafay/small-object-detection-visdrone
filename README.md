@@ -12,25 +12,37 @@ The dataset is **not redistributed**; instead, you can fetch it automatically vi
 ```
 small-object-detection-visdrone/
 ├── README.md
+│
 ├── notebooks/
 │   ├── 01_baseline_yolov8l_visdrone.ipynb
+│   │      # Baseline YOLOv8-L training on VisDrone (control experiment)
 │   └── 02_ablation_sod_yolov8_visdrone.ipynb
+│          # Proposed SOD-YOLOv8 modifications + structured ablation study
+│
 ├── configs/
 │   └── visdrone.yaml
+│          # Dataset configuration file (Kaggle-compatible, path-agnostic)
+│
 ├── results/
 │   ├── yolov8_only/
 │   │   └── stage_comparison_map.png
+│   │          # Baseline vs EMA vs P2 vs PIoU (mAP comparison)
+│   │
 │   ├── sahi_augmented/
 │   │   └── sahi_stage_comparison.png
+│   │          # SAHI inference performance comparison
+│   │
 │   └── calibration_curves/
 │       ├── precision_vs_confidence.png
 │       ├── recall_vs_confidence.png
 │       ├── f1_vs_confidence.png
 │       └── precision_vs_recall.png
+│          # Calibration and PR analysis curves
+│
 ├── requirements.txt
 ├── LICENSE
 └── .gitignore
-
+```
 ## 📊 Dataset
 
 We do not redistribute the dataset. Download it programmatically with KaggleHub:
