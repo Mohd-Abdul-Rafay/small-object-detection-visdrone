@@ -1,14 +1,101 @@
-# YOLOv8l Baseline — VisDrone
+# Small Object Detection in Dense UAV Imagery  
+### Structured Ablation of YOLOv8-L on VisDrone2019-DET
 
-This repository provides a **reproducible baseline** for training the YOLOv8l model on the **VisDrone2019-DET** dataset.  
-All code, paths, weights, and results are preserved exactly as generated.  
-The dataset is **not redistributed**; instead, you can fetch it automatically via **KaggleHub**.  
+This repository presents a structured experimental study on improving small-object detection performance in dense UAV scenes using YOLOv8-L.
 
-> **Environment:** All experiments were run on **Google Colab Pro** with **High-RAM runtime** and an **NVIDIA A100 GPU**.
+The objective is not only to improve mAP, but to analyze *why* architectural and optimization modifications succeed or fail under extreme small-object constraints.
 
 ---
 
-## 📂 Repository Structure
+## Problem Context
+
+Small-object detection in UAV imagery is challenging due to:
+
+- Severe spatial downsampling in deep backbones  
+- Dense object clustering and heavy occlusion  
+- Cross-scale assignment conflicts  
+- Bounding-box regression instability for tiny objects  
+
+This project investigates these failure modes through controlled architectural ablations.
+
+---
+
+## Experimental Setup
+
+- **Dataset:** VisDrone2019-DET (10 classes, 381k+ annotations)
+- **Model:** YOLOv8-L (pretrained)
+- **Resolution:** 640 × 640
+- **Epochs:** 150
+- **Batch Size:** 16
+- **Hardware:** NVIDIA A100 (Colab Pro High-RAM)
+- **Framework:** PyTorch 2.2+, Ultralytics YOLOv8 (8.3.x)
+
+All training arguments are preserved in the notebooks for full reproducibility.
+
+---
+
+## Structured Ablation Pipeline
+
+### Stage 1 — Baseline YOLOv8-L  
+Standard 3-scale detection (P3–P5)
+
+- mAP@0.5: **0.4579**
+- mAP@0.5:0.95: **0.2809**
+
+---
+
+### Stage 2 — EMA Attention Integration  
+Integrated EMA-style attention inside C2f blocks.
+
+**Goal:** Improve feature selectivity in cluttered UAV scenes.  
+**Observation:** Modified confidence calibration but did not surpass baseline globally.
+
+---
+
+### Stage 3 — High-Resolution P2 Head (4-scale P2–P5)  
+Extended detector with stride-4 detection head.
+
+**Goal:** Preserve shallow spatial cues for extremely small objects.  
+**Result:** Performance degradation due to:
+- Candidate explosion  
+- Cross-scale gradient conflicts  
+- Increased false positives from shallow textures  
+
+**Key Insight:** Resolution expansion alone is insufficient without scale-aware assignment and loss balancing.
+
+---
+
+### Stage 4 — PIoU-Inspired Regression Reweighting  
+Implemented regression reweighting strategy within training loop.
+
+**Goal:** Stabilize bounding-box learning for tiny-object localization.  
+**Result:** Recovered performance stability relative to naive P2 expansion.
+
+**Conclusion:** Loss shaping was more effective than naive resolution scaling.
+
+---
+
+## SAHI Evaluation (Inference-Time Tiling)
+
+Slice-based inference was evaluated independently.
+
+- Baseline + SAHI improved small-object recall.
+- Modified architectures required careful merge/NMS tuning.
+- SAHI effectiveness is model-dependent.
+
+---
+
+## Key Technical Findings
+
+1. Small-object regimes are constrained more by regression stability than feature depth.
+2. Adding high-resolution heads without assignment tuning can degrade performance.
+3. Attention modules alter confidence calibration and require threshold tuning.
+4. Inference-time tiling is not universally beneficial.
+5. Structured ablation is critical when modifying multi-scale detectors.
+
+---
+
+## Repository Structure
 ```
 small-object-detection-visdrone/
 ├── README.md
@@ -41,122 +128,41 @@ small-object-detection-visdrone/
 │
 ├── requirements.txt
 ├── LICENSE
-└── .gitignore
-```
-## 📊 Dataset
-
-We do not redistribute the dataset. Download it programmatically with KaggleHub:
-
-```bash
-pip install kagglehub
 ```
 
-```python
-import kagglehub
-from pathlib import Path
+## Dataset
 
-path = kagglehub.dataset_download("banuprasadb/visdrone-dataset")
-print("Path to dataset files:", path)
+The VisDrone dataset is not redistributed.
 
+It can be downloaded programmatically using KaggleHub or directly from the official VisDrone source.
 
-DATA_ROOT = Path(path) / "VisDrone"
-print("DATA_ROOT:", DATA_ROOT)
-```
+---
 
-On Kaggle, the dataset is available at:
-/kaggle/input/visdrone-dataset/VisDrone_Dataset/
-├─ VisDrone2019-DET-train/
-├─ VisDrone2019-DET-val/
-├─ VisDrone2019-DET-test-dev/
-├─ VisDrone2019-DET-test-challenge/
-└─ visdrone.yaml
+## Reproducibility
 
-```yaml
-path: /kaggle/input/visdrone-dataset/VisDrone_Dataset
-train: VisDrone2019-DET-train/images
-val:   VisDrone2019-DET-val/images
-test:  VisDrone2019-DET-test-dev/images
-names: [pedestrian, people, bicycle, car, van, truck, tricycle, awning-tricycle, bus, motor]
-```
+- Training configuration is preserved in the notebooks.
+- All plots and evaluation outputs are included in the `results/` directory.
+- Hyperparameters follow Ultralytics defaults unless explicitly modified.
+- Hardware used: NVIDIA A100 (40GB).
+
+---
+
+## Author
+
+**Abdul Rafay Mohd**  
+Master’s in Artificial Intelligence  
+
+---
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
-## ⚙️ Training Configuration
-
-All hyperparameters are frozen in `args.yaml`.  
-Key parameters:
-
-- **Model**: `yolov8l.pt`  
-- **Epochs**: 150  
-- **Image size**: 640 × 640  
-- **Batch size**: 16  
-- **Workers**: 8  
-- **Device**: GPU (A100, Colab Pro High-RAM)  
-- **Framework**: Ultralytics YOLOv8 v8.3.5  
-- **Torch**: 2.2+  
-
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## 📈 Results
-
-All key figures used for reporting are stored in `results/`:
-
-- `results/yolov8_only/stage_comparison_map.png`: mAP comparison across stages (YOLO-only)
-- `results/sahi_augmented/sahi_stage_comparison.png`: SAHI mAP@0.5 comparison across stages
-- `results/calibration_curves/`:
-  - `precision_vs_confidence.png`
-  - `recall_vs_confidence.png`
-  - `f1_vs_confidence.png`
-  - `precision_vs_recall.png`
-
-Raw training artifacts (e.g., `results.csv`, `args.yaml`, `best.pt`) are intentionally **not tracked** in GitHub to keep the repository lightweight and reproducible. You can regenerate them by running the notebooks in `notebooks/`.
-
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## 🚀 Usage
-
-### Clone and install
-```bash
-git clone https://github.com/Mohd-Abdul-Rafay/small-object-detection-visdrone.git
-cd small-object-detection-visdrone
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-## Run the notebook
-
-Open YOLOv8l Baseline.ipynb in Colab Pro (High-RAM, A100 GPU) or Jupyter.
-Mount the dataset (via KaggleHub or manually) and run the cells.
-
-## Inference
-```bash
-from ultralytics import YOLO
-model = YOLO("runs/yolov8_training/train/weights/best.pt")
-model.predict(source="path/to/images", imgsz=640, save=True)
-```
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## 🧩 Reproducibility
-
-- Notebook and outputs are preserved exactly.  
-- Dataset is external via KaggleHub.  
-- Weights and exports tracked with Git LFS.  
-- CI workflow (`.github/workflows/smoke.yml`) validates environment and imports.  
-- Training confirmed on **Colab Pro High-RAM A100 GPU runtime**.  
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-## 📜 License
+## License
 
 This project is licensed under the terms of the [MIT License](LICENSE).
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
-## 📚 Citation
+## Citation
 
 If you use this repository or report results from it, please cite:
 @software{YOLOv8l_Baseline_2025,
@@ -169,13 +175,13 @@ If you use this repository or report results from it, please cite:
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome. See CONTRIBUTING.md￼.
 
 ⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
 
-## 🔒 Security
+## Security
 
 See SECURITY.md￼ for vulnerability reporting.
 ---
