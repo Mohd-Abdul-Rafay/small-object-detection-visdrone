@@ -1,0 +1,16 @@
+path: /content/drive/MyDrive/Projects/SOD YOLOv8/Datasets/VisDrone_Dataset
+train: VisDrone2019-DET-train/images
+val: VisDrone2019-DET-val/images
+test:  VisDrone2019-DET-test-dev/images 
+nc: 10
+names:
+  0: pedestrian
+  1: people
+  2: bicycle
+  3: car
+  4: van
+  5: truck
+  6: bus
+  7: motor
+  8: tricycle
+  9: awning-tricycle
