@@ -127,7 +127,7 @@ small-object-detection-visdrone/
 │          # Calibration and PR analysis curves
 │
 ├── requirements.txt
-├── LICENSE
+└── LICENSE
 ```
 
 ## Dataset
