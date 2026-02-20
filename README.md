@@ -138,6 +138,26 @@ It can be downloaded programmatically using KaggleHub or directly from the offic
 
 ---
 
+## Role & Contribution
+
+This project was developed in a team of two.  
+
+My responsibilities included:
+
+- Designing and implementing the complete YOLOv8-L training pipeline
+- Establishing the VisDrone baseline configuration and reproducible setup
+- Modifying Ultralytics training internals for architectural experimentation
+- Integrating EMA-style attention modules within C2f blocks
+- Extending the detection head to a 4-scale architecture (P2–P5)
+- Implementing PIoU-inspired regression reweighting for tiny-object stability
+- Conducting structured 4-stage ablation experiments
+- Performing quantitative evaluation and precision–recall trade-off analysis
+- Evaluating SAHI-based inference tiling under dense object constraints
+
+All architectural experimentation, training modifications, and empirical analysis were implemented by me.
+
+---
+
 ## Reproducibility
 
 - Training configuration is preserved in the notebooks.
