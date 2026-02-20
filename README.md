@@ -1,5 +1,4 @@
-# Small Object Detection in Dense UAV Imagery  
-### Structured Ablation of YOLOv8-L on VisDrone2019-DET
+# Small Object Detection in Dense UAV Imagery: Structured Ablation of YOLOv8-L on VisDrone2019-DET
 
 This repository presents a structured experimental study on improving small-object detection performance in dense UAV scenes using YOLOv8-L.
 
@@ -138,23 +137,22 @@ It can be downloaded programmatically using KaggleHub or directly from the offic
 
 ---
 
-## Role & Contribution
+## Contributions
 
-This project was developed in a team of two.  
+**Abdul Rafay Mohd**
+- YOLOv8-L training pipeline design and implementation  
+- Ultralytics internal modifications for architectural experimentation  
+- EMA integration within C2f blocks  
+- 4-scale P2–P5 detector extension  
+- PIoU-inspired regression reweighting  
+- Execution of structured 4-stage ablation experiments  
+- Quantitative evaluation generation  
 
-My responsibilities included:
-
-- Designing and implementing the complete YOLOv8-L training pipeline
-- Establishing the VisDrone baseline configuration and reproducible setup
-- Modifying Ultralytics training internals for architectural experimentation
-- Integrating EMA-style attention modules within C2f blocks
-- Extending the detection head to a 4-scale architecture (P2–P5)
-- Implementing PIoU-inspired regression reweighting for tiny-object stability
-- Conducting structured 4-stage ablation experiments
-- Performing quantitative evaluation and precision–recall trade-off analysis
-- Evaluating SAHI-based inference tiling under dense object constraints
-
-All architectural experimentation, training modifications, and empirical analysis were implemented by me.
+**Ziya Mubeen Ahmed Mohammed**
+- Experimental result analysis and interpretation  
+- Precision–recall and calibration study  
+- Documentation and formal reporting  
+- Presentation development and project coordination 
 
 ---
 
@@ -167,10 +165,10 @@ All architectural experimentation, training modifications, and empirical analysi
 
 ---
 
-## Author
+## Authors
 
-**Abdul Rafay Mohd**  
-Artificial Intelligence | Medical AI | Computer Vision 
+- **Abdul Rafay Mohd**  
+- **Ziya Mubeen Ahmed Mohammed**
 
 ---
 
@@ -186,8 +184,9 @@ If this work is useful in your research, please cite:
 
 ```bibtex
 @software{rafay2025smallobject,
-  author  = {Abdul Rafay Mohd},
+  author  = {Abdul Rafay Mohd and Ziya Mubeen Ahmed Mohammed},
   title   = {Small Object Detection in Dense UAV Imagery: Structured Ablation of YOLOv8-L},
   year    = {2025},
   url     = {https://github.com/Mohd-Abdul-Rafay/small-object-detection-visdrone}
 }
+```
